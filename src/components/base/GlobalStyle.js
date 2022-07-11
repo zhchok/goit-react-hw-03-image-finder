@@ -1,22 +1,30 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-* {
-  box-sizing: border-box;
-  }
+
   html {
     scroll-behavior: smooth;
+	   width: 100vw;
+     overflow-x: hidden;
+  box-sizing: border-box;
   }
+  *,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
   body {
     font-family: Montserrat, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;
     background-color: #fff;
     color: #010101;
+	 margin: 0px;
   }
   img {
-    display: block;
-    max-width: 100%;
+   display: block;
+  max-width: 100%;
+  height: auto;
   }
   ul {
     padding: 0;
