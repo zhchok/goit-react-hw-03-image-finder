@@ -1,14 +1,12 @@
+import { Loading } from "notiflix/build/notiflix-loading-aio";
+import { Notify } from "notiflix/build/notiflix-notify-aio";
+import { Component } from "react";
+import { getImages } from "services/api";
+import { ImageGallery } from "./ImageGallery/ImageGallery.jsx";
+import { LoadMore } from "./LoadMore/LoadMore.jsx";
+import { Searchbar } from "./Searchbar/Searchbar.jsx";
 import { GlobalStyle } from "./base/GlobalStyle";
 import { Box } from "./box/box";
-import { Searchbar } from "./Searchbar/Searchbar.jsx";
-import { Component } from "react";
-import { ImageGallery } from "./ImageGallery/ImageGallery.jsx";
-import { getImages } from "services/api";
-import { LoadMore } from "./LoadMore/LoadMore.jsx";
-import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { Loading } from "notiflix/build/notiflix-loading-aio";
-
-let allImages;
 
 export class App extends Component {
 	state = {
@@ -16,6 +14,7 @@ export class App extends Component {
 		query: "",
 		page: 1,
 		loading: false,
+		allImages: "",
 	};
 
 	componentDidUpdate(_, prevState) {
@@ -30,8 +29,8 @@ export class App extends Component {
 
 		try {
 			const images = await getImages(query, page);
-			allImages = images.total;
-			if (allImages === 0) {
+			this.state.allImages = images.total;
+			if (this.state.allImages === 0) {
 				Notify.failure("Images not found");
 			}
 
@@ -65,7 +64,7 @@ export class App extends Component {
 				<Searchbar onSubmit={this.addQuery} />
 				{loading && Loading.dots()}
 				<ImageGallery items={images} />
-				{images.length > 0 && images.length < allImages && <LoadMore onClick={this.loadMore} />}
+				{images.length > 0 && images.length < this.state.allImages && <LoadMore onClick={this.loadMore} />}
 			</Box>
 		);
 	}
